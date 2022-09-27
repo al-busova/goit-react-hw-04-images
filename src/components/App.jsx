@@ -27,9 +27,11 @@ export default class App extends Component {
         getImages(searchImageName, page)
           .then(images => {
             if (images.total === 0) {
-              this.setState({ status: 'idle' })
-             
-              return toast.error('Sorry, there are no images matching your search query. Please try again.')  ;
+              this.setState({ status: 'idle' });
+
+              return toast.error(
+                'Sorry, there are no images matching your search query. Please try again.'
+              );
             }
             this.setState({
               status: 'resolved',
@@ -48,6 +50,11 @@ export default class App extends Component {
     this.setState({ searchImageName, page: 1, images: [] });
   };
   loadMoreImages = e => {
+    window.scrollBy({
+      top: 1000,
+      left: 1000,
+      behavior: 'smooth',
+    });
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
@@ -64,7 +71,7 @@ export default class App extends Component {
         {images.length !== 0 && (
           <LoadMoreBtn onloadMore={this.loadMoreImages} />
         )}
-        <ToastContainer autoClose={3000}/>
+        <ToastContainer autoClose={3000} />
       </main>
     );
   }
