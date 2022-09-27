@@ -1,8 +1,10 @@
 import { Component } from 'react';
 import Searchbar from './Searchbar/Searchbar';
-import { ImageGallery }  from './ImageGallery/ImageGallery';
+import { ImageGallery } from './ImageGallery/ImageGallery';
 import { LoadMoreBtn } from 'components/Button/Button';
 import { getImages } from 'services/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class App extends Component {
   state = {
@@ -14,25 +16,29 @@ export default class App extends Component {
   };
 
   componentDidUpdate(_, prevState) {
+    const { searchImageName, page } = this.state;
     if (
-      prevState.searchImageName !== this.state.searchImageName ||
-      prevState.page !== this.state.page
+      prevState.searchImageName !== searchImageName ||
+      prevState.page !== page
     ) {
       this.setState({ status: 'pending' });
 
       setTimeout(() => {
-        getImages(this.state.searchImageName, this.state.page)
+        getImages(searchImageName, page)
           .then(images => {
             if (images.total === 0) {
-              this.setState({ status: 'idle' });
-              return alert('no images');
+              this.setState({ status: 'idle' })
+             
+              return toast.error('Sorry, there are no images matching your search query. Please try again.')  ;
             }
             this.setState({
               status: 'resolved',
-              images: [...prevState.images, ...images],
+              images: [...prevState.images, ...images.hits],
             });
           })
-          .catch(error => this.setState({ error, status: 'rejected' }))
+          .catch(error =>
+            this.setState({ error: error.message, status: 'rejected' })
+          )
           .finally(() => this.setState({ loading: false }));
       }, 300);
     }
@@ -46,17 +52,19 @@ export default class App extends Component {
   };
 
   render() {
+    const { images, status, error } = this.state;
     return (
       <main>
         <Searchbar onSubmit={this.handleFormSubmit} />
         <ImageGallery
-          images={this.state.images}
-          status={this.state.status}
-          error={this.state.error}
+          images={images}
+          status={status}
+          error={error}
         ></ImageGallery>
-        {this.state.images.length !== 0 && (
+        {images.length !== 0 && (
           <LoadMoreBtn onloadMore={this.loadMoreImages} />
         )}
+        <ToastContainer autoClose={3000}/>
       </main>
     );
   }

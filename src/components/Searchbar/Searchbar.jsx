@@ -1,4 +1,5 @@
 import { React, Component } from 'react';
+import PropTypes from 'prop-types';
 import { HiSearch } from 'react-icons/hi';
 import {
   HeaderSearch,
@@ -8,7 +9,6 @@ import {
 } from './Searchbar.styled';
 
 export default class Searchbar extends Component {
-
   state = {
     searchImageName: '',
   };
@@ -19,7 +19,8 @@ export default class Searchbar extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    if (this.state.searchImageName.trim() === '') {
+    const { searchImageName } = this.state;
+    if (searchImageName.trim() === '') {
       return alert('Enter name image.')
     }
     this.props.onSubmit(this.state.searchImageName);
@@ -45,3 +46,7 @@ export default class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

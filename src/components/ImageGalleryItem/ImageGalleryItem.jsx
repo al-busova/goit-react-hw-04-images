@@ -1,44 +1,57 @@
-// import PropTypes from "prop-types";
-import { Component } from "react";
-import { Image} from "./ImageGalleryItem.styled";
-import { Modal } from "components/Modal/Modal";
+import PropTypes from 'prop-types';
+import { Component } from 'react';
+import { Image } from './ImageGalleryItem.styled';
+import { Modal } from 'components/Modal/Modal';
 
 export default class ImageGalleryItem extends Component {
   state = {
-    showModal: false
-  }
+    showModal: false,
+  };
+
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
   }
+
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
+
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({ showModal: !showModal }));
+  };
+
   handleKeyDown = e => {
     if (e.code === 'Escape') {
-        this.setState({ showModal: false })
-      }
-  }
+      this.setState({ showModal: false });
+    }
+  };
+
   handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
       this.toggleModal();
-  }
-}
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({showModal: !showModal}))
-  }
+    }
+  };
 
   render() {
-     const { url, tags, bigUrl } = this.props;
-    return (<><Image src={url} alt={tags} onClick={this.toggleModal} />  
-      {this.state.showModal && <Modal bigUrl={bigUrl} alt={tags} onBackdrop ={this.handleBackdropClick} />} </>
-  );
+    const { url, tags, bigUrl } = this.props;
+    const { showModal } = this.state;
+    return (
+      <>
+        <Image src={url} alt={tags} onClick={this.toggleModal} />
+        {showModal && (
+          <Modal
+            bigUrl={bigUrl}
+            alt={tags}
+            onBackdrop={this.handleBackdropClick}
+          />
+        )}{' '}
+      </>
+    );
   }
- 
 }
 
-// ImageGalleryItem.propTypes = {
-//     name: PropTypes.string.isRequired,
-//     number: PropTypes.string.isRequired,
-//     id: PropTypes.string.isRequired,
-//     deleteContact: PropTypes.func.isRequired
-// };
+ImageGalleryItem.propTypes = {
+  largeImageURL: PropTypes.string, //чому не виходить зазначити обов'язковими? (в консолі помилку дає)
+  webformatURL: PropTypes.string, //чому не виходить зазначити обов'язковими? (в консолі помилку дає)
+  tags: PropTypes.string.isRequired,
+};

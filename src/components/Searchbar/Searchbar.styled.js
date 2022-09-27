@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const HeaderSearch = styled.header`
-top: 0;
+  top: 0;
   left: 0;
   position: sticky;
   z-index: 1100;
@@ -20,7 +20,7 @@ top: 0;
 `;
 
 export const FormSearch = styled.form`
-display: flex;
+  display: flex;
   align-items: center;
   width: 100%;
   max-width: 600px;
@@ -29,7 +29,7 @@ display: flex;
   overflow: hidden;
 `;
 export const FormSearchBtn = styled.button`
- display: inline-block;
+  display: inline-block;
   width: 48px;
   height: 48px;
   border: 0;
@@ -49,7 +49,7 @@ export const FormSearchBtn = styled.button`
 `;
 
 export const FormInput = styled.input`
-display: inline-block;
+  display: inline-block;
   width: 100%;
   font: inherit;
   font-size: 20px;
@@ -58,7 +58,7 @@ display: inline-block;
   padding-left: 4px;
   padding-right: 4px;
   &::placeholder {
-     font: inherit;
-  font-size: 18px;
+    font: inherit;
+    font-size: 18px;
   }
 `;
