@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
-import { Loader } from 'components/Loader/Loader';
-import { ListImages, ImageItem,  NotificationGallery } from './ImageGallery.styled';
-import { toast } from 'react-toastify'; 
- 
-export const ImageGallery = ({ status, error, images }) => {
-  if (status === 'resolved') {
-    return (
-      <ListImages>
+import {
+  ListImages,
+  ImageItem,
+} from './ImageGallery.styled';
+
+export const ImageGallery = ({ images}) => {
+  return (
+    <>
+      {images && <ListImages>
         {images.map(image => (
           <ImageItem key={image.id}>
             <ImageGalleryItem
@@ -17,25 +18,13 @@ export const ImageGallery = ({ status, error, images }) => {
             />
           </ImageItem>
         ))}
-      </ListImages>
-    );
-  }
-  if (status === 'idle') {
-    return < NotificationGallery>Please, enter query image.</ NotificationGallery>;
-  }
-
-  if (status === 'pending') {
-    return <Loader />;
-  }
-
-  if (status === 'rejected') {
-    return toast.error(error);
-  }
+      </ListImages>}
+      
+    </>
+  );
 };
 
 ImageGallery.propTypes = {
-  status: PropTypes.string.isRequired,
-  error: PropTypes.string,
   images: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

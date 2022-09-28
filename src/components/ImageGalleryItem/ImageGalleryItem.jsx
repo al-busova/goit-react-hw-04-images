@@ -51,7 +51,7 @@ export default class ImageGalleryItem extends Component {
 }
 
 ImageGalleryItem.propTypes = {
-  largeImageURL: PropTypes.string, //чому не виходить зазначити обов'язковими? (в консолі помилку дає)
-  webformatURL: PropTypes.string, //чому не виходить зазначити обов'язковими? (в консолі помилку дає)
+  bigUrl : PropTypes.string.isRequired, 
+  url: PropTypes.string.isRequired, 
   tags: PropTypes.string.isRequired,
 };

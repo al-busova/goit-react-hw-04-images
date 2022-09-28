@@ -7,6 +7,7 @@ import {
   FormSearchBtn,
   FormInput,
 } from './Searchbar.styled';
+import { toast } from 'react-toastify'; 
 
 export default class Searchbar extends Component {
   state = {
@@ -21,10 +22,10 @@ export default class Searchbar extends Component {
     e.preventDefault();
     const { searchImageName } = this.state;
     if (searchImageName.trim() === '') {
-      return alert('Enter name image.')
+      return toast('Please, enter query.');
     }
+    
     this.props.onSubmit(this.state.searchImageName);
-    this.setState({ searchImageName: '' });
   }
 
   render() {
