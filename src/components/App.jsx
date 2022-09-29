@@ -56,7 +56,7 @@ export default class App extends Component {
   handleFormSubmit = searchImageName => {
     this.setState(prevState => {
       if (prevState.searchImageName === searchImageName) {
-        return console.log('ар', this.state.images.length );
+        return ;
       } else {
         return this.setState({ searchImageName, page: 1, images:[]});
       }
