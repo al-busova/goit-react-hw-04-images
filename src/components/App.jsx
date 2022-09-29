@@ -36,13 +36,13 @@ export default class App extends Component {
               );
             }
             
-            if (page === prevState.page) {
-              this.setState({
-                images: [...images.hits],
-              });
-            } else {
-              this.setState({
+            if (page !== prevState.page && prevState.searchImageName === searchImageName ) {
+                 this.setState({
                 images: [...prevState.images, ...images.hits],
+              });
+            } else  {
+           this.setState({
+                images: [...images.hits],
               });
            
             }
@@ -54,12 +54,11 @@ export default class App extends Component {
   }
 
   handleFormSubmit = searchImageName => {
-     console.log('len', this.state.images.length )
     this.setState(prevState => {
       if (prevState.searchImageName === searchImageName) {
-        return;
+        return console.log('ар', this.state.images.length );
       } else {
-        return this.setState({ searchImageName, page: 1});
+        return this.setState({ searchImageName, page: 1, images:[]});
       }
     });
   };
@@ -70,7 +69,7 @@ export default class App extends Component {
 
   render() {
     const { images, loading, error, total } = this.state;
-      console.log('len', this.state.images.length )
+
     return (
       <main>
         <Searchbar onSubmit={this.handleFormSubmit} />
