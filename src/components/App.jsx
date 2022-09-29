@@ -19,7 +19,7 @@ export default class App extends Component {
   };
 
   componentDidUpdate(_, prevState) {
-    const { searchImageName, page } = this.state;
+    const { searchImageName, page} = this.state;
 
     if (
       prevState.searchImageName !== searchImageName ||
@@ -29,12 +29,13 @@ export default class App extends Component {
       setTimeout(() => {
         getImages(searchImageName, page)
           .then(images => {
-            this.setState({ total: images.total });
+          this.setState({ total: images.total});
             if (images.total === 0) {
               return toast.error(
                 'Sorry, there are no images matching your search query. Please try again.'
               );
             }
+            
             if (page === prevState.page) {
               this.setState({
                 images: [...images.hits],
@@ -43,6 +44,7 @@ export default class App extends Component {
               this.setState({
                 images: [...prevState.images, ...images.hits],
               });
+           
             }
           })
           .catch(error => this.setState({ error: error.message }))
@@ -52,11 +54,12 @@ export default class App extends Component {
   }
 
   handleFormSubmit = searchImageName => {
+     console.log('len', this.state.images.length )
     this.setState(prevState => {
       if (prevState.searchImageName === searchImageName) {
         return;
       } else {
-        return this.setState({ searchImageName, page: 1, images: [] });
+        return this.setState({ searchImageName, page: 1});
       }
     });
   };
@@ -67,6 +70,7 @@ export default class App extends Component {
 
   render() {
     const { images, loading, error, total } = this.state;
+      console.log('len', this.state.images.length )
     return (
       <main>
         <Searchbar onSubmit={this.handleFormSubmit} />
@@ -76,7 +80,7 @@ export default class App extends Component {
             <ImageGallery images={images}></ImageGallery>
             {loading ? (
               <Loader />
-            ) : ((total > 12) &&
+            ) : (total !== images.length  &&
               <LoadMoreBtn onloadMore={this.loadMoreImages} />
             )}
           </>
