@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import {
   ListImages,
   ImageItem,
@@ -19,7 +19,6 @@ export const ImageGallery = ({ images}) => {
           </ImageItem>
         ))}
       </ListImages>}
-      
     </>
   );
 };

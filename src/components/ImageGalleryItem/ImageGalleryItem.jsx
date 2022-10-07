@@ -1,53 +1,46 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useState, useEffect} from 'react';
 import { Image } from './ImageGalleryItem.styled';
 import { Modal } from 'components/Modal/Modal';
 
-export default class ImageGalleryItem extends Component {
-  state = {
-    showModal: false,
+export const ImageGalleryItem = ({ url, tags, bigUrl }) => {
+  const [showModal, setShowModal] = useState(false);
+ 
+  const toggleModal = () => {
+    setShowModal(!showModal);
   };
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({ showModal: !showModal }));
-  };
-
-  handleKeyDown = e => {
+  const handleKeyDown = e => {
     if (e.code === 'Escape') {
-      this.setState({ showModal: false });
+      setShowModal(false);
     }
   };
 
-  handleBackdropClick = e => {
+ const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
-      this.toggleModal();
+      toggleModal();
     }
   };
-
-  render() {
-    const { url, tags, bigUrl } = this.props;
-    const { showModal } = this.state;
+  
+useEffect(() => {
+  window.addEventListener('keydown', handleKeyDown);
+  return () => {
+ window.removeEventListener('keydown', handleKeyDown);
+  }
+}, []);
+  
     return (
       <>
-        <Image src={url} alt={tags} onClick={this.toggleModal} />
+        <Image src={url} alt={tags} onClick={toggleModal} />
         {showModal && (
           <Modal
             bigUrl={bigUrl}
             alt={tags}
-            onBackdrop={this.handleBackdropClick}
+            onBackdrop={handleBackdropClick}
           />
-        )}{' '}
+        )}
       </>
     );
-  }
 }
 
 ImageGalleryItem.propTypes = {
